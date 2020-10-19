@@ -56,7 +56,6 @@ public:
 	}
 	// Template Method 템플릿의 패턴을 
 	void LogMessage_print() {
-		
 		time_stamp();
 		severity_stamp();
 		directory_stamp();
