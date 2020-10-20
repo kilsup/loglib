@@ -1,3 +1,72 @@
+
+#include "ifile.h"
+#include "loglib.h"
+#include <fstream>
+
+void ifile::filenamming() {
+	std::cout << "file namming..." << std::endl;
+
+	time_t timer = time(NULL);  // time_t 데이터 타입 변수 timer에 현재 시각 저장
+	struct tm* t = localtime(&timer);				// tm 구조체 타입의 날짜
+	//localtime_s(&t, &timer);
+	// 시간 calibration
+
+
+	std::string date = std::to_string(t->tm_year + 1900) + std::to_string(t->tm_mon + 1)
+		+ std::to_string(t->tm_mday) + std::to_string(t->tm_hour) + std::to_string(t->tm_min) + std::to_string(t->tm_sec);
+	filename[severity] += "log_";
+	switch (severity)
+	{
+	case(INFO): filename[severity] += "info";		break;
+	case(WARNING): filename[severity] += "WARNING";	break;
+	case(ERROR): filename[severity] += "ERROR";		break;
+	case(FATAL): filename[severity] += "FATAL";		break;
+	case(DEBUG): filename[severity] += "DEBUG";		break;
+	default:
+		std::cout << "filenameing error" << std::endl;
+		break;
+	}
+
+	filename[severity] += date;
+	filename[severity] += ".log";
+	std::cout << "filename" << std::endl;
+}
+
+void ifile::make_file() {
+	std::cout << "make_file..." << std::endl;
+	// 파일 유무 / 사이즈 확인
+
+	switch (option){
+	case(NEW):		fs[severity].open(filename, std::ios_base::trunc);
+	case(APPEND):	fs[severity].open(filename, std::ios_base::app);
+	}
+	std::cout << "make_file_exit" << std::endl;
+}
+
+void ifile::log_write(const std::string& buf) {
+	fs[severity] << buf << std::endl;
+}
+
+
+bool ifile::fsize_check() {
+	char over = 0;
+	int size = 0;
+	std::ifstream ifs;
+
+	if (ifs.is_open() == 0)
+		printf("\n\n파일이 존재하지 않습니다.n\n");
+	ifs.seekg(0, std::ios::end);
+	size = ifs.tellg();
+
+	return over;		// 파일이 없거나 용량이 작으면 0
+						// 파일이 있는데 용량이 크면   1
+}
+
+
+
+
+
+#if 0
 #include "ifile.h"
 #include "loglib.h"
 #include <fstream>
@@ -66,3 +135,5 @@ void file::filenamming(const int& severity) {
 	filename += date;
 	filename += ".log";
 }
+
+#endif
