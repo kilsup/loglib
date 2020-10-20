@@ -18,30 +18,18 @@ public:
 	virtual void log_write(const std::string& buf) = 0 ;
 };
 
-class makeFile : public ifile {
+class file : public ifile {
 private:
+	int severity;
 	std::string filename;
 	std::ofstream fs;
 public:
-	makeFile() {}
-	makeFile(const int& o_option) {
 
-		// 파일 유무 / 사이즈 확인
-		if (fsize_check())
-			std::cout << "용량 초과" << std::endl;
-		// 파일 이름 만들기
-
-		filenamming();
-
-		switch (o_option)
-		{
-			case(NEW)	:	fs.open(filename, std::ios_base::trunc);
-			case(APPEND):	fs.open(filename, std::ios_base::app);
-		}		
-	}
-	void log_write(const std::string buf);
+	file(const int& level) : severity(level) {}
 	bool fsize_check();
-	void filenamming();
+	void filenamming(const int& severity);
+	void make_file(const int& o_option);
+	void log_write(const std::string& buf) override;	
 };
 
 #endif
