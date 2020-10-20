@@ -1,30 +1,47 @@
 #ifndef IFILE_H
-#define IFLIE_H
+#define IFILE_H
 #include <string>
 #include <fstream>
+#include <iostream>
+#include <time.h>
 
 // file Interface 입력
 // message, level
 
-#define APPEND std::ios_base::app
-#define OUTPUT APPEND
-
-
-class ifile {
-public:	
-	virtual void log_write(const std::string buf) = 0 ;
+enum Option {
+	NEW = 0,
+	APPEND = 1,
 };
 
-class infoFile : public ifile {
-private:
-	std::ofstream info;
+class ifile {
 public:
-	infoFile() {
-		info.open("info.txt", OUTPUT);
+	virtual void log_write(const std::string& buf) = 0 ;
+};
+
+class makeFile : public ifile {
+private:
+	std::string filename;
+	std::ofstream fs;
+public:
+	makeFile() {}
+	makeFile(const int& o_option) {
+
+		// 파일 유무 / 사이즈 확인
+		if (fsize_check())
+			std::cout << "용량 초과" << std::endl;
+		// 파일 이름 만들기
+
+		filenamming();
+
+		switch (o_option)
+		{
+			case(NEW)	:	fs.open(filename, std::ios_base::trunc);
+			case(APPEND):	fs.open(filename, std::ios_base::app);
+		}		
 	}
-
-	virtual void log_write(const std::string buf);
-
+	void log_write(const std::string buf);
+	bool fsize_check();
+	void filenamming();
 };
 
 #endif
