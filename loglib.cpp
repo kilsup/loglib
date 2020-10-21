@@ -2,50 +2,50 @@
 #include "Ifile.h"
 
 
-class log_init {
-	Ifile iff;
+class Log {
+
+	IFile iFileInterface;
+
+	Log() {		
+		iFileInterface.initIfile();
+		std::cout << "File Interface Initialized !!!" << std::endl;
+
+		
+	}
+
+	Log(const Log&) = delete;
+	Log& operator=(const Log&) = delete;
+
+	static Log* instance;
+
 protected:
 	std::vector<std::string> seve = { "INFO", "WARNING", "ERROR", "FATAL", "DEBUG" };
 public:
-	log_init() {
-		iff.initIfile();
-		std::cout << "File Interface Initialized !!!" << std::endl;
+	static Log& getInstance() {
+		if (instance == nullptr)
+			instance = new Log;
+		return *instance;
 	}
 
-	void sum_print(const int& s, const char* fileName_, const char* funcName_, const int& line_, std::string mes)
+	void sumPrint(const int& s, const char* fileName_, const char* funcName_, const int& line_, std::string mes)
 	{
-		std::string sum;
-		sum = "(";
-		sum += seve[s];
-		sum += ") ";
-		//sum += fileName_;
-		sum += "(func : ";
-		sum += funcName_;
-		sum += ") ";
-		sum += "(line : ";
-		sum += std::to_string(line_);
-		sum += ") ";
-		sum += "      << ";
-		sum += mes;
+		time_t timer = time(NULL);
+		struct tm* t = localtime(&timer);
+		char tBuf[512];
+		char buf[512];
 
-		// ★★★★★ 코칭 필요 ! sum을 예쁘게 해야함.....
-
-		
-
-
-		iff.log_write(s, sum);
+		sprintf(tBuf, "%d-%d-%d %d:%d:%d", t->tm_year + 1900, t->tm_mon + 1, t->tm_mday, t->tm_hour, t->tm_min, t->tm_sec);
+		sprintf(buf, "[%s] [%s] [Location(function, line) : (%s, %d)]  << %s", tBuf, seve[s].c_str(),  funcName_, line_, mes.c_str());
+		std::cout << buf << std::endl;
+		std::string sum = std::string(buf);
+		iFileInterface.log_write(s, sum);
 	}
 };
+Log* Log::instance = nullptr;
 
-log_init m;		// ★★★★★ 코칭 필요 !전역을 없애야함
-				// 전역 한 이유 ! 생성자는 한번만 호출되도록 하고 sum_print
-
-// ★★★★★ 코칭 필요 ! 함수로 빼야하나........
-
-void logprint(const int& s, const char* fileName_,
+void logPrint(const int& s, const char* fileName_,
 	const char* funcName_, const int& line_, std::string mes)	
-{
-	std::cout << "const int& s : " << s << std::endl;
-	m.sum_print(s, fileName_, funcName_, line_, mes);
+{	
+	auto& c1 = Log::getInstance();
+	c1.sumPrint(s, fileName_, funcName_, line_, mes);
 }
-

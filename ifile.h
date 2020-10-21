@@ -14,20 +14,20 @@ enum Option {
 	APPEND
 };
 
-class Ifile {
+class IFile {
 private:
-	std::vector<std::string> seve = { "INFO", "WARNING", "ERROR", "FATAL", "DEBUG" };
+	std::vector<std::string>	seve = { "INFO", "WARNING", "ERROR", "FATAL", "DEBUG" };
 	std::vector<std::string>	severity;		
 	std::vector<std::string>	filename;		
 	std::vector<std::ofstream>	fs;				// 각 fs를 최신 파일이름에 매칭해여줘야 함
 public:
-	Ifile(){}
-	virtual ~Ifile() {}
+	IFile(){}
+	virtual ~IFile() {}
 	void initIfile();
 	std::string filenamming(const int& severity);
 	std::ofstream make_file(const int& severity, const int& option);
 	void log_write(const int& severity, const std::string& buf);
-	int fline_check();
+	int fline_check(const int& fIndex);
 };
 
 #endif
