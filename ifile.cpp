@@ -1,11 +1,9 @@
-
 #include "ifile.h"
 #include "loglib.h"
 
 void IFile::initIfile()
 {
 	int num;
-
 	
 	while (1) {
 		std::cout << "< LOG Initialization >" << std::endl;
@@ -24,7 +22,6 @@ void IFile::initIfile()
 		system("cls");
 	}
 }
-
 
 std::string IFile::fNaming(const int& severity) {
 
