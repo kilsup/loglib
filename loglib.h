@@ -4,8 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include "Ifile.h"
-#define MAX_SEVERITIES 5															// Severity °³¼ö
-
+#define MAX_SEVERITIES 5
 
 //////////////////////////////////// User Log Format ///////////////////////////////////////////
 
@@ -24,6 +23,31 @@ enum Severity {
 	DEBUG
 };
 
+class Log {
+private:
+	IFile iFileInterface;
+
+	Log() {
+		iFileInterface.initIfile();
+		std::cout << "File Interface Initialized !!!" << std::endl;
+	}
+
+	Log(const Log&) = delete;
+	Log& operator=(const Log&) = delete;
+
+	static Log* instance;
+
+protected:
+	std::vector<std::string> seve = { "INFO", "WARNING", "ERROR", "FATAL", "DEBUG" };
+public:
+	static Log& getInstance() {
+		if (instance == nullptr)
+			instance = new Log;
+		return *instance;
+	}
+
+	void sumPrint(const int& s, const char* fileName_, const char* funcName_, const int& line_, std::string mes);
+};
 
 void logPrint(const int& s, const char* fileName_, const char* funcName_, const int& line_, std::string mes);
 

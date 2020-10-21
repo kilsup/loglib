@@ -5,10 +5,10 @@
 
 int main() {
 
-	for (int i = 0; i < 2; i++) {
-		LOG_INFO("test");
-		LOG_WARNING("test");
-		LOG_ERROR("test");
-		LOG_FATAL("test");
+	for (int i = 0; i < 100; i++) {
+		LOG_INFO("Info test");
+		LOG_WARNING("Warning test");
+		LOG_ERROR("Error test");
+		LOG_FATAL("Fatal test");
 	}
 }

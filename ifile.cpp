@@ -1,8 +1,6 @@
 
 #include "ifile.h"
 #include "loglib.h"
-#include <iostream>
-
 
 void IFile::initIfile()
 {
@@ -16,8 +14,8 @@ void IFile::initIfile()
 
 		if (num > 0 && num < 5) {
 			severity.push_back(seve[num - 1]);
-			filename.push_back(filenamming(num - 1));
-			fs.push_back(make_file(num - 1, 0));
+			filename.push_back(fNaming(num - 1));
+			fs.push_back(makeFile(num - 1, 0));
 		}
 		else if (num == 9)
 			break;
@@ -28,7 +26,7 @@ void IFile::initIfile()
 }
 
 
-std::string IFile::filenamming(const int& severity) {
+std::string IFile::fNaming(const int& severity) {
 
 	std::string name;
 
@@ -54,42 +52,28 @@ std::string IFile::filenamming(const int& severity) {
 	name += date;
 	name += ".log";
 
-	return name;
-
-	
+	return name;	
 }
 
-std::ofstream IFile::make_file(const int& severity, const int& option) {
+std::ofstream IFile::makeFile(const int& severity, const int& option) {
 	std::ofstream fp;
-	/*
-	switch (option)
-	{
-		case(NEW):		fp.open(filename[severity]);
-		case(APPEND):	fp.open(filename[severity], std::ios_base::app);
-	}*/
 	fp.open(filename.back());
-	
 	return fp;
 }
 
-void IFile::log_write(const int& index, const std::string& buf) {
+void IFile::logWrite(const int& index, const std::string& buf) {
 	
 	auto search = std::find(severity.begin(), severity.end(), seve[index]);
 	
-	if (search == severity.end())
-	{
-		std::cout << "passssssssssssssssss" <<std::endl;
-		return;
-	}
+	if (search == severity.end())	return;
 	auto findIndex = search - severity.begin();
-
 
 	fs[findIndex] << buf << std::endl;
 
 	if (fLineCheck(findIndex) > MAX_LINE || fDateCheck(findIndex)) {
 		
-		filename[findIndex] = filenamming(findIndex);
-		fs[findIndex] = make_file(findIndex, 0);
+		filename[findIndex] = fNaming(findIndex);
+		fs[findIndex] = makeFile(findIndex, 0);
 	}
 
 }
@@ -101,7 +85,6 @@ int IFile::fLineCheck(const int& fIndex) {
 
 	while (std::getline(input, s))
 		c++;
-	std::cout << "c : " << c << std::endl;
 	return c;
 }
 
