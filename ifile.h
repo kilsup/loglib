@@ -23,7 +23,15 @@ private:
 	std::vector<std::ofstream>	fs;
 public:
 	IFile(){}
-	virtual ~IFile() {}
+	virtual ~IFile() {
+		// ????
+		std::cout << "~FILE\n" << std::endl;
+		for (int i = 0; i < fs.size(); i++) {
+			fs[i].close();
+			std::cout << "close\n" << std::endl;
+		}
+			
+	}
 	void initIfile();
 	std::string fNaming(const int& severity);
 	std::ofstream makeFile(const int& severity, const int& option);

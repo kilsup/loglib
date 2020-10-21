@@ -30,6 +30,7 @@ private:
 	Log() {
 		iFileInterface.initIfile();
 		std::cout << "File Interface Initialized !!!" << std::endl;
+		std::cout << "File Printed !!!" << std::endl;
 	}
 
 	Log(const Log&) = delete;

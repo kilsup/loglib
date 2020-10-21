@@ -1,15 +1,24 @@
 #include "ifile.h"
 #include "loglib.h"
+#include "setting.h"
 
 void IFile::initIfile()
 {
+	for (int i = 0; i < sev.size();  i++) {
+		severity.push_back(seveArray[sev[i]]);
+		filename.push_back(fNaming(sev[i]));
+		fs.push_back(makeFile(sev[i], 0));
+	}
+
+#if 0
+
 	int num;
-	
 	while (1) {
+		
 		std::cout << "< LOG Initialization >" << std::endl;
 		std::cout << "Severity (1.INFO, 2.WARNING, 3.ERROR, 4.FATAL, 5.DEBUG) / 9.confirm : ";
 		std::cin >> num;
-
+		
 		if (num > 0 && num < 5) {
 			severity.push_back(seveArray[num - 1]);
 			filename.push_back(fNaming(num - 1));
@@ -21,6 +30,7 @@ void IFile::initIfile()
 			continue;
 		system("cls");
 	}
+#endif
 }
 
 std::string IFile::fNaming(const int& severity) {
@@ -33,6 +43,9 @@ std::string IFile::fNaming(const int& severity) {
 	std::string date = std::to_string(t->tm_year + 1900) + std::to_string(t->tm_mon + 1)
 		+ std::to_string(t->tm_mday) + std::to_string(t->tm_hour) + std::to_string(t->tm_min) + std::to_string(t->tm_sec);
 
+	if (!dir.empty())
+		name += dir;
+
 	name += "log_";
 	switch (severity)
 	{
@@ -40,7 +53,6 @@ std::string IFile::fNaming(const int& severity) {
 	case(WARNING): name += "WARNING";	break;
 	case(ERROR): name += "ERROR";		break;
 	case(FATAL): name += "FATAL";		break;
-	case(DEBUG): name += "DEBUG";		break;
 	default:
 		std::cout << "filenameing error" << std::endl;
 		break;
@@ -87,11 +99,12 @@ int IFile::fLineCheck(const int& fIndex) {
 
 bool IFile::fDateCheck(const int& fIndex) {
 	
-
-
 	time_t timer = time(NULL);
 	struct tm* t = localtime(&timer);
-	std::string compare = "log_" + severity[fIndex] + std::to_string(t->tm_year + 1900) + std::to_string(t->tm_mon + 1)
+	std::string compare;
+	if (!dir.empty())
+		compare += dir;
+	compare += "log_" + severity[fIndex] + std::to_string(t->tm_year + 1900) + std::to_string(t->tm_mon + 1)
 		+ std::to_string(t->tm_mday);
 
 	return 	filename[fIndex] < compare ? true : false;	
