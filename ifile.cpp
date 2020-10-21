@@ -32,8 +32,6 @@ std::string IFile::filenamming(const int& severity) {
 
 	std::string name;
 
-	//std::cout << "file namming..." << std::endl;
-
 	time_t timer = time(NULL); 
 	struct tm* t = localtime(&timer);
 
@@ -55,8 +53,6 @@ std::string IFile::filenamming(const int& severity) {
 
 	name += date;
 	name += ".log";
-
-	//std::cout << "file namming...<done>" << std::endl;
 
 	return name;
 
@@ -90,8 +86,7 @@ void IFile::log_write(const int& index, const std::string& buf) {
 
 	fs[findIndex] << buf << std::endl;
 
-
-	if (fline_check(findIndex) > 1) {
+	if (fLineCheck(findIndex) > MAX_LINE || fDateCheck(findIndex)) {
 		
 		filename[findIndex] = filenamming(findIndex);
 		fs[findIndex] = make_file(findIndex, 0);
@@ -99,7 +94,7 @@ void IFile::log_write(const int& index, const std::string& buf) {
 
 }
 
-int IFile::fline_check(const int& fIndex) {	
+int IFile::fLineCheck(const int& fIndex) {	
 	int c = 0;
 	std::string s;
 	std::ifstream input(filename[fIndex]);
@@ -108,4 +103,15 @@ int IFile::fline_check(const int& fIndex) {
 		c++;
 	std::cout << "c : " << c << std::endl;
 	return c;
+}
+
+bool IFile::fDateCheck(const int& fIndex) {
+	
+	time_t timer = time(NULL);
+	struct tm* t = localtime(&timer);
+
+	std::string compare = "log_" + seve[fIndex] + std::to_string(t->tm_year + 1900) + std::to_string(t->tm_mon + 1)
+		+ std::to_string(t->tm_mday);
+
+	return 	filename[fIndex] < compare ? true : false;	
 }

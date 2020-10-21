@@ -9,6 +9,9 @@
 #include <string>
 #include <fstream>
 
+
+#define MAX_LINE 100
+
 enum Option {
 	NEW,
 	APPEND
@@ -27,7 +30,8 @@ public:
 	std::string filenamming(const int& severity);
 	std::ofstream make_file(const int& severity, const int& option);
 	void log_write(const int& severity, const std::string& buf);
-	int fline_check(const int& fIndex);
+	int fLineCheck(const int& fIndex);
+	bool fDateCheck(const int& fIndex);
 };
 
 #endif
