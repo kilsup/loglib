@@ -11,7 +11,7 @@ void Log::sumPrint(const int& s, const char* fileName_, const char* funcName_, c
 	char buf[512];
 
 	sprintf(tBuf, "%d-%d-%d %d:%d:%d", t->tm_year + 1900, t->tm_mon + 1, t->tm_mday, t->tm_hour, t->tm_min, t->tm_sec);
-	sprintf(buf, "[%s] [%s] [Location(function, line) : (%s, %d)]  << %s", tBuf, seve[s].c_str(), funcName_, line_, mes.c_str());
+	sprintf(buf, "[%s] [%s] [Location(function, line) : (%s, %d)]  << %s", tBuf, seveArray[s].c_str(), funcName_, line_, mes.c_str());
 	std::string sum = std::string(buf);
 	iFileInterface.logWrite(s, sum);
 }

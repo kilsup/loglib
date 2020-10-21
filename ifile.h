@@ -17,7 +17,7 @@ enum Option {
 
 class IFile {
 private:
-	std::vector<std::string>	seve = { "INFO", "WARNING", "ERROR", "FATAL", "DEBUG" };
+	std::vector<std::string>	seveArray = { "INFO", "WARNING", "ERROR", "FATAL", "DEBUG" };
 	std::vector<std::string>	severity;		
 	std::vector<std::string>	filename;		
 	std::vector<std::ofstream>	fs;

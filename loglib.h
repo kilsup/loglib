@@ -38,7 +38,7 @@ private:
 	static Log* instance;
 
 protected:
-	std::vector<std::string> seve = { "INFO", "WARNING", "ERROR", "FATAL", "DEBUG" };
+	std::vector<std::string> seveArray = { "INFO", "WARNING", "ERROR", "FATAL", "DEBUG" };
 public:
 	static Log& getInstance() {
 		if (instance == nullptr)

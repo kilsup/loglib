@@ -4,8 +4,6 @@
 #include <string>
 
 int main() {
-
-
 	for (int i = 0; i < 100; i++) {
 		LOG_INFO("Info test");
 		LOG_WARNING("Warning test");
