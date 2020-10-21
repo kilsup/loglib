@@ -1,28 +1,28 @@
 
 #include "ifile.h"
 #include "loglib.h"
+#include <iostream>
+
 
 void Ifile::initIfile()
 {
-	severity.push_back("INFO");
-	severity.push_back("WARNING");
-	severity.push_back("ERROR");
-	severity.push_back("FATAL");
-	severity.push_back("DEBUG");
-	
-	filename.push_back(filenamming(0));
-	//filename.push_back(filenamming(1));
-	//filename.push_back(filenamming(2));
-	//filename.push_back(filenamming(3));
-	//filename.push_back(filenamming(4));
+	int num;
 
-	fs.push_back(make_file(0, 0));	
-	//fs.push_back(make_file(1, 0));
-	//fs.push_back(make_file(2, 0));
-	//fs.push_back(make_file(3, 0));
-	//fs.push_back(make_file(4, 0));
+	std::cout << "< LOG Initialization >" << std::endl;
+	while (1) {
+		std::cout << "Severity (1.INFO, 2.WARNING, 3.ERROR, 4.FATAL, 5.DEBUG) / 9.confirm : " << std::endl;
 
-
+		std::cin >> num;
+		if (num > 0 && num < 5) {
+			severity.push_back(seve[num - 1]);
+			filename.push_back(filenamming(num - 1));
+			fs.push_back(make_file(num - 1, 0));
+		}
+		else if (num == 9)
+			break;
+		else
+			continue;
+	}
 }
 
 
@@ -41,7 +41,7 @@ std::string Ifile::filenamming(const int& severity) {
 	name += "log_";
 	switch (severity)
 	{
-	case(INFO): name += "info";		break;
+	case(INFO): name += "INFO";		break;
 	case(WARNING): name += "WARNING";	break;
 	case(ERROR): name += "ERROR";		break;
 	case(FATAL): name += "FATAL";		break;
@@ -54,9 +54,11 @@ std::string Ifile::filenamming(const int& severity) {
 	name += date;
 	name += ".log";
 
+	std::cout << "file namming...<done>" << std::endl;
+
 	return name;
 
-	std::cout << "filename" << std::endl;
+	
 }
 
 std::ofstream Ifile::make_file(const int& severity, const int& option) {
@@ -69,22 +71,36 @@ std::ofstream Ifile::make_file(const int& severity, const int& option) {
 		case(NEW):		fp.open(filename[severity]);
 		case(APPEND):	fp.open(filename[severity], std::ios_base::app);
 	}*/
-	fp.open(filename[severity]);
-	std::cout << "make_file_exit" << std::endl;
+	fp.open(filename.back());
+	std::cout << "make_file...<done>" << std::endl;
 	
 	return fp;
 }
 
-void Ifile::log_write(const int& severity, const std::string& buf) {
-	std::cout << "log_write In" << std::endl;
-	fs[severity] << buf << std::endl;
+void Ifile::log_write(const int& index, const std::string& buf) {
+	std::cout << "log_write In..." << std::endl;
+	
+	auto search = std::find(severity.begin(), severity.end(), seve[index]);
+	
+	if (search == severity.end())
+	{
+		std::cout << "passssssssssssssssss" <<std::endl;
+		return;
+	}
+	auto findIndex = search - severity.begin();
+	std::cout << "INDEX :" << findIndex << std::endl;
+
+
+	fs[findIndex] << buf << std::endl;
+
+	/*
 	if (fline_check() > 100) {
 		
 		filename[severity] = filenamming(severity);
 		fs[severity] = make_file(severity, 0);
-	}
+	}*/
 		
-	std::cout << "log_write Out" << std::endl;
+	std::cout << "log_write...<done>" << std::endl;
 }
 
 int Ifile::fline_check() {	

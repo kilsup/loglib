@@ -1,11 +1,19 @@
 #include "ifile.h"
-//#include "loglib.h"
+#include "loglib.h"
 #include <vector>
 #include <string>
 
+int main() {
+		LOG_INFO("INFO");
+		LOG_INFO("INFO");
+		LOG_WARNING("WARNING");
+		//LOG_ERROR("ERROR");
+		//LOG_FATAL("FATAL");
+}
+
+
+#if 0
 #define LOG(message)	logprint(INFO	,__FILE__,__FUNCTION__,__LINE__, message)	
-
-
 
 enum Severity {
 	INFO,
@@ -14,8 +22,6 @@ enum Severity {
 	FATAL,
 	DEBUG
 };
-
-
 
 
 class logprintt {
@@ -84,7 +90,7 @@ int main() {
 	//m.print_f(0, "Warning message");
 
 }
-
+#endif
 
 
 

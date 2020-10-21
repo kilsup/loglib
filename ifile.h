@@ -16,9 +16,10 @@ enum Option {
 
 class Ifile {
 private:
-	std::vector<std::string>	severity;
-	std::vector<std::string>	filename;
-	std::vector<std::ofstream>	fs;		// 각 fs를 최신 파일이름에 매칭해여줘야 함
+	std::vector<std::string> seve = { "INFO", "WARNING", "ERROR", "FATAL", "DEBUG" };
+	std::vector<std::string>	severity;		
+	std::vector<std::string>	filename;		
+	std::vector<std::ofstream>	fs;				// 각 fs를 최신 파일이름에 매칭해여줘야 함
 public:
 	Ifile(){}
 	virtual ~Ifile() {}
