@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include "Ifile.h"
+#include "setting.h"
 #define MAX_SEVERITIES 5
 
 //////////////////////////////////// User Log Format ///////////////////////////////////////////
@@ -29,8 +30,12 @@ private:
 
 	Log() {
 		iFileInterface.initIfile();
-		std::cout << "File Interface Initialized !!!" << std::endl;
-		std::cout << "File Printed !!!" << std::endl;
+		std::cout << "Logging Start !!!" << std::endl;
+		
+	}
+
+	~Log() {
+		std::cout << "Logging Success !!!" << std::endl;
 	}
 
 	Log(const Log&) = delete;
@@ -46,10 +51,16 @@ public:
 			instance = new Log;
 		return *instance;
 	}
+	static void destroy() {
+		delete instance;
+	}
 
 	void sumPrint(const int& s, const char* fileName_, const char* funcName_, const int& line_, std::string mes);
 };
 
 void logPrint(const int& s, const char* fileName_, const char* funcName_, const int& line_, std::string mes);
+
+void loggingStart();
+
 
 #endif

@@ -19,7 +19,7 @@ public:
 
 class MenuItem : public BaseMenu {
     std::function<void()> handler;
-    
+
 public:
     MenuItem(const std::string& s) : handler(nullptr), BaseMenu(s) {}
 

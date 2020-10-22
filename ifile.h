@@ -18,19 +18,14 @@ enum Option {
 class IFile {
 private:
 	std::vector<std::string>	seveArray = { "INFO", "WARNING", "ERROR", "FATAL", "DEBUG" };
-	std::vector<std::string>	severity;		
-	std::vector<std::string>	filename;		
+	std::vector<std::string>	severity;
+	std::vector<std::string>	filename;
 	std::vector<std::ofstream>	fs;
 public:
-	IFile(){}
+	IFile() {}
 	virtual ~IFile() {
-		// ????
-		std::cout << "~FILE\n" << std::endl;
-		for (int i = 0; i < fs.size(); i++) {
+		for (int i = 0; i < fs.size(); i++)
 			fs[i].close();
-			std::cout << "close\n" << std::endl;
-		}
-			
 	}
 	void initIfile();
 	std::string fNaming(const int& severity);
